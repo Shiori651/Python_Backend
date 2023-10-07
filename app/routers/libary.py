@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Depends,status,HTTPException,Response
-from database import get_dp
+from ..database import get_dp
 from sqlalchemy.orm import Session
-import oauth2,models,schemas
+from .. import oauth2,models,schemas
 
 router=APIRouter(prefix="/libary",tags=["libary"])
 

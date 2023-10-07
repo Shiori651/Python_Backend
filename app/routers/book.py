@@ -2,9 +2,9 @@
 from fastapi import Depends, HTTPException,Response,status,APIRouter
 from typing import List, cast
 from sqlalchemy import Integer, func
-from sqlalchemy.orm import Session
-import schemas,models,oauth2
-from database  import get_dp
+from sqlalchemy.orm import Session 
+from .. import schemas,models,oauth2
+from ..database  import get_dp
 from typing import Optional
 
 router=APIRouter(prefix="/book",tags=["Book"])

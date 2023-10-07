@@ -3,12 +3,12 @@ from datetime import datetime,timedelta
 from fastapi import Depends,HTTPException,status
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer
-import schemas,models
-from config import settings
-
+from . import schemas,models
+from .config import settings
+from .database import get_dp
 oauth2_scheme=OAuth2PasswordBearer(tokenUrl='login')
 
-from database import get_dp
+
 SECRET_KEY = settings.secret_key
 ALGORITHM = settings.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes

@@ -3,11 +3,11 @@
 
 from fastapi import Depends, FastAPI, HTTPException,Response,status,APIRouter
 from typing import List
-from sqlalchemy.orm import Session
-import schemas,models, utils
+from sqlalchemy.orm import Session 
+from .. import schemas,models, utils
 
 from typing import List
-from database import get_dp
+from app.database import get_dp
 router=APIRouter(
     prefix="/user",
     tags=["User"])
