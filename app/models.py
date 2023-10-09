@@ -5,7 +5,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 
 from app.database import Base
-# from database import Base
 class Book(Base):
     __tablename__="books"
     
@@ -30,7 +29,5 @@ class Libary(Base):
     __tablename__="libarys"
     user_id=Column(Integer,ForeignKey("users.id",ondelete="CASCADE"),primary_key=True,nullable=False)
     book_id=Column(Integer,ForeignKey("books.id",ondelete="CASCADE"),primary_key=True,nullable=False)
-    user=relationship("User")
-    book=relationship("Book")
     
     

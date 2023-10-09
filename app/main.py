@@ -1,9 +1,6 @@
 from fastapi import  FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-# from database import engin
-import app.models
 from app.routers import user,book,auth,libary
-# models.Base.metadata.create_all(bind=engin)
 from .config import settings
 
 app=FastAPI()
