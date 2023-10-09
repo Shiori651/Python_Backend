@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import app.models
 from app.routers import user,book,auth,libary
 # models.Base.metadata.create_all(bind=engin)
-from .config import settings
+from .app.config import settings
 
 app=FastAPI()
 origins =["*"]
