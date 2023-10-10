@@ -1,5 +1,6 @@
 from fastapi import  FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from app.routers import user,book,auth,libary
 from .config import settings
 
@@ -19,4 +20,4 @@ app.include_router(libary.router)
 
 @app.get("/")
 def root():
-    return {"message": "Hello World "}
+   return{"message:":"Seni Seviyorum Bebeğim <3 "}

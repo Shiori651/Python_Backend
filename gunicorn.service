@@ -1,0 +1,14 @@
+[Unit]
+Description=demo fastapi application
+After=network.target
+
+[Service]
+User=shiori
+Group=shiori
+WorkingDirectory=/home/shiori/app/Python_Backend/
+Environment="PATH=/home/shiori/app/Python_Backend/venv/bin"
+EnvironmentFile=/home/shiori/.env
+ExecStart=/home/shiori/.local/bin/gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
+
+[Install]
+WantedBy=multi-user.target
