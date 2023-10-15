@@ -1,9 +1,11 @@
 from fastapi import  FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
-from app.routers import user,book,auth,libary
+from .routers import user,book,auth,libary
 from .config import settings
-
+from .database import engin
+from . import models
+models.Base.metadata.create_all(bind=engin)
 app=FastAPI()
 origins =["*"]
 app.add_middleware(
@@ -20,4 +22,4 @@ app.include_router(libary.router)
 
 @app.get("/")
 def root():
-   return{"message:":"Seni Seviyorum Bebeğimmm <3"}
+   return{"message:":"Seni Seviyorum Bebegiimmm <3"}

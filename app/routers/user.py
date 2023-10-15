@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from .. import schemas,models, utils
 
 from typing import List
-from app.database import get_dp
+from ..database import get_dp
 router=APIRouter(
     prefix="/user",
     tags=["User"])

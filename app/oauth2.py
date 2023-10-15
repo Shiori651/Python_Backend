@@ -6,6 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from . import schemas,models
 from .config import settings
 from .database import get_dp
+
 oauth2_scheme=OAuth2PasswordBearer(tokenUrl='login')
 
 
