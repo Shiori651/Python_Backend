@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from .. import schemas,models, utils
 
 from typing import List
-from ..database import get_dp
+from ..database import get_db
 router=APIRouter(
     prefix="/user",
     tags=["User"])
@@ -15,12 +15,12 @@ router=APIRouter(
 
 
 @router.get("",response_model=List[schemas.UserOut])
-def get_user(dp:Session=Depends(get_dp)):
+def get_user(dp:Session=Depends(get_db)):
     users=dp.query(models.User).offset(0).limit(10).all()
     return users
 
 @router.post("",response_model=schemas.UserOut,status_code=201)
-def creat_user(user:schemas.UserCreat,dp:Session=Depends(get_dp)):
+def creat_user(user:schemas.UserCreat,dp:Session=Depends(get_db)):
     
     user_has=dp.query(models.User).filter(models.User.email==user.email).first()
     if user_has is not None:
@@ -32,19 +32,3 @@ def creat_user(user:schemas.UserCreat,dp:Session=Depends(get_dp)):
     dp.refresh(new_user)
     
     return new_user
-
-@router.get("/{id}",response_model=schemas.UserOut)
-def search_user(id:int,db:Session=Depends(get_dp)): 
-    searched_user=db.query(models.User).filter(models.User.id==id)
-    if(searched_user.first() is None):
-        raise HTTPException(status_code=404)
-    return searched_user.first()
-
-@router.delete("/{id}",status_code=204)
-def delete_user(id:int,dp:Session=Depends(get_dp)):
-    deleted_user=dp.query(models.User).filter(models.User.id==id)
-    if(deleted_user.first() is None):
-        raise HTTPException(status_code=404)
-    dp.delete(deleted_user.first())
-    dp.commit()
-    return 

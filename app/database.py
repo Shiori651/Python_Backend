@@ -12,7 +12,7 @@ SessionLocal= sessionmaker(autocommit=False,autoflush= False,bind=engin)
 
 Base= declarative_base()
 
-def get_dp():
+def get_db():
     db=SessionLocal()
     try:
         yield db

@@ -4,13 +4,13 @@ from typing import List, cast
 from sqlalchemy import Integer, func
 from sqlalchemy.orm import Session 
 from .. import schemas,models,oauth2
-from ..database  import get_dp
+from ..database  import get_db
 from typing import Optional
 
 router=APIRouter(prefix="/book",tags=["Book"])
 
 @router.get("",response_model=List[schemas.BookOut])
-def get_book(dp:Session=Depends(get_dp),curret_user:schemas.UserOut=Depends(oauth2.get_current_user),
+def get_book(dp:Session=Depends(get_db),curret_user:schemas.UserOut=Depends(oauth2.get_current_user),
              limit:int =10,skip:int=0,search:Optional[str]=""):
     # books=dp.query(models.Book).filter(models.Book.owner_id==curret_user.id).filter(models.Book.name.contains(search)).\
     #     limit(limit).offset(skip).all()
@@ -24,7 +24,7 @@ def get_book(dp:Session=Depends(get_dp),curret_user:schemas.UserOut=Depends(oaut
 
 
 @router.post("",response_model=schemas.Book,status_code=201)
-def creat_book(book:schemas.BookCreate,dp:Session=Depends(get_dp), curret_user:schemas.UserOut=Depends(oauth2.get_current_user)):
+def creat_book(book:schemas.BookCreate,dp:Session=Depends(get_db), curret_user:schemas.UserOut=Depends(oauth2.get_current_user)):
     new_book=models.Book(owner_id=curret_user.id,**book.model_dump())
     dp.add(new_book)
     dp.commit()
@@ -33,7 +33,7 @@ def creat_book(book:schemas.BookCreate,dp:Session=Depends(get_dp), curret_user:s
 
 
 @router.get("/{isbn}",response_model=schemas.BookOut)
-def search_book(isbn:str,dp:Session=Depends(get_dp)):
+def search_book(isbn:str,dp:Session=Depends(get_db)):
     searched_book=dp.query(models.Book,func.count(models.Libary.book_id).label("laybarys"))\
         .join(models.Libary,models.Libary.book_id==models.Book.id,isouter=True).filter(models.Book.isbn==isbn).\
             group_by(models.Book.id).filter(models.Book.isbn==isbn).first()
@@ -43,7 +43,7 @@ def search_book(isbn:str,dp:Session=Depends(get_dp)):
 
 
 @router.delete("/{id}")
-def delete_book(id:int, dp:Session=Depends(get_dp), curret_user:schemas.UserOut=Depends(oauth2.get_current_user)):
+def delete_book(id:int, dp:Session=Depends(get_db), curret_user:schemas.UserOut=Depends(oauth2.get_current_user)):
     book=dp.query(models.Book).filter(models.Book.id==id)
     isbook=book.first()
     
@@ -59,7 +59,7 @@ def delete_book(id:int, dp:Session=Depends(get_dp), curret_user:schemas.UserOut=
 
 
 @router.put("/{id}",response_model=schemas.Book)
-def update_book(id:int,book:schemas.BookCreate ,dp:Session=Depends(get_dp), curret_user:schemas.UserOut=Depends(oauth2.get_current_user)):
+def update_book(id:int,book:schemas.BookCreate ,dp:Session=Depends(get_db), curret_user:schemas.UserOut=Depends(oauth2.get_current_user)):
     book_query= dp.query(models.Book).filter(models.Book.id==id)
     update_book=book_query.first()
     
