@@ -3,34 +3,34 @@ from ..database import get_db
 from sqlalchemy.orm import Session
 from .. import oauth2,models,schemas
 
-router=APIRouter(prefix="/libary",tags=["libary"])
+router = APIRouter(prefix="/library",tags=["Library"])
 
     
     
 
 @router.get("/{book_id}")
-def hasLibarys(book_id:int,current_user:schemas.UserOut=Depends(oauth2.get_current_user),dp:Session=Depends(get_db)):
+def hasLibrarys(book_id:int,current_user:schemas.UserOut=Depends(oauth2.get_current_user),dp:Session=Depends(get_db)):
     hasBook = dp.query(models.Book).filter(models.Book.id==book_id)
     if not hasBook.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    return dp.query(models.Libary).filter(models.Libary.book_id==book_id,models.Libary.user_id==current_user.id).first()!=None
+    return dp.query(models.Library).filter(models.Library.book_id==book_id,models.Library.user_id==current_user.id).first()!=None
     
 
 @router.post("")
-def libary(book:schemas.libary,current_user:schemas.UserOut=Depends(oauth2.get_current_user),dp:Session=Depends(get_db)):
+def library(book:schemas.library,current_user:schemas.UserOut=Depends(oauth2.get_current_user),dp:Session=Depends(get_db)):
     user_id=current_user.id
     book_id=book.book_id
     hasBook = dp.query(models.Book).filter(models.Book.id==book_id)
     
     if not hasBook.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    hasLibary = dp.query(models.Libary).filter(models.Libary.book_id==book_id,models.Libary.user_id==current_user.id)
-    if hasLibary.first():
-        hasLibary.delete(synchronize_session=False)
+    hasLibrary = dp.query(models.Library).filter(models.Library.book_id==book_id,models.Library.user_id==current_user.id)
+    if hasLibrary.first():
+        hasLibrary.delete(synchronize_session=False)
         dp.commit()
         return Response(status_code=status.HTTP_200_OK)
-    new_libary=models.Libary(book_id=book_id,user_id=user_id)
-    dp.add(new_libary)
+    new_library=models.Library(book_id=book_id,user_id=user_id)
+    dp.add(new_library)
     dp.commit()
     return Response(status_code=status.HTTP_201_CREATED)
         

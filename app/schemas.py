@@ -41,7 +41,7 @@ class BookOut(BaseModel):
     laybarys:int
     class Config:
         from_attributes =True
-class libary(BaseModel):
+class library(BaseModel):
     book_id:int
 
 

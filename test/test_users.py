@@ -2,8 +2,6 @@ import pytest
 from app import schemas
 from app.config import settings
 from jose import jwt
-from .test_database import client,sesssion
-from .conftest import test_user
 
 def current_user_schema(
         email="test123@gmail.com",

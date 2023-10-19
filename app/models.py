@@ -25,8 +25,8 @@ class User(Base):
     created_at=Column(TIMESTAMP(timezone=True),nullable=False,server_default=text("now()"))
     phone_number=Column(String,nullable=True)
     
-class Libary(Base):
-    __tablename__="libarys"
+class Library(Base):
+    __tablename__="librarys"
     user_id=Column(Integer,ForeignKey("users.id",ondelete="CASCADE"),primary_key=True,nullable=False)
     book_id=Column(Integer,ForeignKey("books.id",ondelete="CASCADE"),primary_key=True,nullable=False)
     

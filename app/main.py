@@ -1,11 +1,11 @@
 from fastapi import  FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
-from .routers import user,book,auth,libary
+from .routers import user,book,auth,library
 from .config import settings
 from .database import engin
 from . import models
-models.Base.metadata.create_all(bind=engin)
+# models.Base.metadata.create_all(bind=engin)
 app=FastAPI()
 origins =["*"]
 app.add_middleware(
@@ -18,7 +18,7 @@ app.add_middleware(
 app.include_router(book.router)
 app.include_router(user.router)
 app.include_router(auth.router)
-app.include_router(libary.router)
+app.include_router(library.router)
 
 @app.get("/")
 def root():

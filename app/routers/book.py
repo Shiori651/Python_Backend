@@ -17,8 +17,8 @@ def get_book(dp:Session=Depends(get_db),curret_user:schemas.UserOut=Depends(oaut
 
     # if books is None:
     #     raise HTTPException(status_code=404)
-    deneme=dp.query(models.Book,func.count(models.Libary.book_id).label("laybarys"))\
-        .join(models.Libary,models.Libary.book_id==models.Book.id,isouter=True).filter(models.Book.owner_id==curret_user.id).\
+    deneme=dp.query(models.Book,func.count(models.Library.book_id).label("laybarys"))\
+        .join(models.Library,models.Library.book_id==models.Book.id,isouter=True).filter(models.Book.owner_id==curret_user.id).\
             group_by(models.Book.id).filter(models.Book.name.contains(search)).limit(limit).offset(skip).all()
     return deneme
 
@@ -34,8 +34,8 @@ def creat_book(book:schemas.BookCreate,dp:Session=Depends(get_db), curret_user:s
 
 @router.get("/{isbn}",response_model=schemas.BookOut)
 def search_book(isbn:str,dp:Session=Depends(get_db)):
-    searched_book=dp.query(models.Book,func.count(models.Libary.book_id).label("laybarys"))\
-        .join(models.Libary,models.Libary.book_id==models.Book.id,isouter=True).filter(models.Book.isbn==isbn).\
+    searched_book=dp.query(models.Book,func.count(models.Library.book_id).label("laybarys"))\
+        .join(models.Library,models.Library.book_id==models.Book.id,isouter=True).filter(models.Book.isbn==isbn).\
             group_by(models.Book.id).filter(models.Book.isbn==isbn).first()
     if searched_book is None :
         raise HTTPException(status_code= 404,detail="Book not found")
