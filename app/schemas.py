@@ -43,6 +43,7 @@ class BookOut(BaseModel):
         from_attributes =True
 class library(BaseModel):
     book_id:int
+    dir:conint(le=1)
 
 
 
