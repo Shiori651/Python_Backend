@@ -23,3 +23,7 @@ app.include_router(library.router)
 @app.get("/")
 def root():
    return{"message:":"Seni Seviyorum Bebegiimmm <3"}
+
+@app.get("/aziz")
+def root():
+   return{"message:":"Aziz 31 <3 "}
